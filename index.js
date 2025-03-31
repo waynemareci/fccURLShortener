@@ -14,10 +14,16 @@ app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-// Your first API endpoint
-app.get('/api/hello', function(req, res) {
-  res.json({ greeting: 'hello API' });
-});
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use((req, res, next) => {
+  console.log(req.method + ' ' + req.path + ' - ' + req.ip);
+  next()
+})
+
+app.post("/api/shorturl",(req,res) => {
+  console.log("body: " + req.body)
+})
 
 app.listen(port, function() {
   console.log(`Listening on port ${port}`);
